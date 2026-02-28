@@ -1,4 +1,4 @@
-package com.eduardo.weatherApi.dto;
+package com.eduardo.weatherApi.model.dto;
 
 public record WeatherResponse(
         String city,
