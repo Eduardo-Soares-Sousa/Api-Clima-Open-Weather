@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface WeatherRepository extends JpaRepository<WeatherHistory, Long> {
+public interface WeatherHistoryRepository extends JpaRepository<WeatherHistory, Long> {
     List<WeatherHistory> findByCity(String city);
 }
