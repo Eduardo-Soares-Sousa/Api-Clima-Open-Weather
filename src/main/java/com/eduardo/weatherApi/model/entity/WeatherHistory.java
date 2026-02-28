@@ -6,14 +6,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "wheather_history")
+@Table(name = "weather_history")
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Getter
 public class WeatherHistory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
