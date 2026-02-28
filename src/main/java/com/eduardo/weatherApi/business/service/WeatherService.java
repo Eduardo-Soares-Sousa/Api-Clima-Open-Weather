@@ -8,6 +8,7 @@ import com.eduardo.weatherApi.repository.WeatherHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.text.Normalizer;
 import java.util.List;
 
 @Service
@@ -20,18 +21,28 @@ public class WeatherService {
     public WeatherResponse showingWeather(String city) {
         WeatherResponse weatherResponse = weatherClient.getWeather(city);
 
-        weatherHistoryRepository.save(
-                weatherConvert.convertToWeatherHistory(weatherResponse)
-        );
+        var history = weatherConvert.convertToWeatherHistory(weatherResponse);
+
+        history.setCity(normalize(history.getCity()));
+
+        weatherHistoryRepository.save(history);
 
         return weatherResponse;
     }
 
     public List<WeatherHistory> getCityWeatherHistory(String city) {
-        return weatherHistoryRepository.findByCity(city);
+        return weatherHistoryRepository.findByCityIgnoreCase(city);
     }
 
     public List<WeatherHistory> getWeatherHistory() {
         return weatherHistoryRepository.findAll();
+    }
+
+    private String normalize(String text) {
+        if (text == null) return null;
+
+        return Normalizer.normalize(text, Normalizer.Form.NFD)
+                .replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
+                .toLowerCase();
     }
 }

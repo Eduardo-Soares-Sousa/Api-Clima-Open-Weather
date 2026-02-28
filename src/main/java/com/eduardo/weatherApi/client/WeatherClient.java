@@ -1,5 +1,6 @@
 package com.eduardo.weatherApi.client;
 
+import com.eduardo.weatherApi.model.dto.OpenWeatherResponse;
 import com.eduardo.weatherApi.model.dto.WeatherResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,6 +20,15 @@ public class WeatherClient {
                 + "&appid=" + apiKey
                 + "&units=metric&lang=pt_br";
 
-        return restTemplate.getForObject(url, WeatherResponse.class);
+        OpenWeatherResponse response =
+                restTemplate.getForObject(url, OpenWeatherResponse.class);
+
+        return new WeatherResponse(
+                response.name(),
+                response.main().temp(),
+                response.main().feelsLike(),
+                response.weather().get(0).description(),
+                response.wind().speed()
+        );
     }
 }

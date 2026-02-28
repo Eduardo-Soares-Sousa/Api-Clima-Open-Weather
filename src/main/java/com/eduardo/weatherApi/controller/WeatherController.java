@@ -6,8 +6,8 @@ import com.eduardo.weatherApi.model.entity.WeatherHistory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -16,15 +16,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/weather")
 public class WeatherController {
-    private WeatherService weatherService;
+    private final WeatherService weatherService;
 
     @GetMapping("/{city}")
-    public ResponseEntity<WeatherResponse> getWeather(@RequestParam String city) {
+    public ResponseEntity<WeatherResponse> getWeather(@PathVariable String city) {
         return ResponseEntity.ok(weatherService.showingWeather(city));
     }
 
     @GetMapping("/history/{city}")
-    public ResponseEntity<List<WeatherHistory>> getWeatherHistoryByCity(@RequestParam String city) {
+    public ResponseEntity<List<WeatherHistory>> getWeatherHistoryByCity(@PathVariable String city) {
         return ResponseEntity.ok(weatherService.getCityWeatherHistory(city));
     }
 
